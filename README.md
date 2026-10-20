@@ -60,5 +60,3 @@
 ├── css/                     # Page-specific & theme stylesheets
 ├── js/                      # Modular JavaScript controllers (maps-core, data, etc.)
 ├── icons/                   # Favicons & PWA application icons
-├── master-datasheet.csv     # Master 175-record catalogue dataset
-└── verified-datasheet.xlsx  # Verified 73-record botanical workbook
