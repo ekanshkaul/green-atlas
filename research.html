@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'sha256-qniwu46ODIC4rO19xw/cZGBTXKro7w2Y8PqLPO2aABE=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com https://cdnjs.cloudflare.com https://api.qrserver.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://server.arcgisonline.com https://api.qrserver.com; worker-src 'self'; manifest-src 'self'">
+    <title>Sustainability &amp; Ecological Audit — SMVDU Green Atlas</title>
+
+    <!-- Instant Theme Loader: Place this BEFORE your CSS links -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('smvdu_floris_theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <meta name="description" content="Catalogued flora metrics, ecological sector composition, survey schedule, and documented data limitations for the SMVDU Green Atlas.">
+    <meta name="theme-color" content="#1e4620">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Typography & Iconography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Master CSS & Research-Specific CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/research.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Retractable Header Interface -->
+    <header class="home-header">
+        <div class="home-nav-container">
+            <!-- Retractable Nav Trigger Button -->
+            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" aria-controls="retractable-nav-drawer" aria-expanded="false" title="Menu">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <!-- Atlas Wordmark -->
+            <a href="index.html" class="nav-brand" aria-label="Green Atlas — Home">
+                <span class="nav-brand-atlas">GREEN ATLAS</span>
+            </a>
+
+            <!-- Theme Toggle Button -->
+            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Retractable Drawer Panel -->
+        <nav id="retractable-nav-drawer" class="retractable-nav-drawer" aria-hidden="true">
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="database.html"><i class="fa-solid fa-book-bookmark"></i> Flora Database</a></li>
+                <li><a href="maps.html"><i class="fa-solid fa-map-location-dot"></i> Vegetation Maps</a></li>
+                <li><a href="research.html" class="active" aria-current="page"><i class="fa-solid fa-seedling"></i> Sustainability &amp; Audit</a></li>
+                <li><a href="safety.html"><i class="fa-solid fa-shield-halved"></i> Toxicity &amp; Safety</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="nexus-wrapper">
+
+        <!-- Header -->
+        <div class="db-header">
+            <div class="db-title">
+                <h1>CAMPUS <span>SUSTAINABILITY AUDIT</span></h1>
+                <div class="db-subtitle">
+                    <span class="db-subtitle-line"></span>
+                    <p>Catalogued Flora Metrics, Sector Composition &amp; Survey Schedule</p>
+                </div>
+            </div>
+            <div class="status-chip research-status-chip">
+                <div class="status-dot"></div>
+                <span>PROVISIONAL AUDIT // PROJECT RECORDS</span>
+            </div>
+        </div>
+
+        <!-- Data Scope Notice -->
+        <section class="research-notice" aria-labelledby="research-notice-title">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <div>
+                <h2 id="research-notice-title">Data scope and limitations</h2>
+                <p>This page summarizes the supplied flora dataset and the project survey schedule. The dataset does not include quadrat abundance counts, tree diameters, biomass equations, measured carbon-stock values, or surveyed sector areas, so carbon-sequestration, Shannon&ndash;Wiener diversity and invasive-pressure figures are not presented as results.</p>
+                <p id="research-invasive-note">Invasive behaviour is mentioned in some field notes; this is a text flag, not a measured pressure index.</p>
+                <p>Survey statuses reflect the project schedule. Completion records and field sheets are not included in the supplied dataset.</p>
+            </div>
+        </section>
+
+        <!-- Telemetry Stats Grid -->
+        <div class="density-stats-grid" aria-label="Catalogued flora metrics">
+            <div class="stat-card">
+                <div class="stat-label">Catalogued Taxa</div>
+                <div class="stat-value" id="research-stat-taxa">--</div>
+                <div class="density-meta" id="research-meta-taxa">Loading records&hellip;</div>
+            </div>
+            <div class="stat-card gold">
+                <div class="stat-label">Families Represented</div>
+                <div class="stat-value" id="research-stat-families">--</div>
+                <div class="density-meta" id="research-meta-families">Taxonomic breadth of the catalogue</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-label">Verified Records</div>
+                <div class="stat-value" id="research-stat-verified">--</div>
+                <div class="density-meta" id="research-meta-verified">Taxon record verification only</div>
+            </div>
+            <div class="stat-card cyan">
+                <div class="stat-label">Survey Phases Complete</div>
+                <div class="stat-value" id="research-stat-surveys">--</div>
+                <div class="density-meta" id="research-meta-surveys">Documented project schedule</div>
+            </div>
+        </div>
+
+        <!-- Research Methodology Narrative -->
+        <article class="audit-narrative-card">
+            <h2><i class="fa-solid fa-microscope" aria-hidden="true"></i> Ecological Sampling Methodology</h2>
+            <p>The catalogue records presence data: botanical and common names, family, habit, sector assignment, coordinates where supplied, elevation tags where supplied, toxicity notes and a per-record taxon verification flag. It is not an abundance survey, and these records cannot support a Shannon&ndash;Wiener diversity index or a carbon-stock estimate on their own.</p>
+            <p>The mapped records carry supplied elevation tags spanning <strong id="research-elevation-range">not recorded</strong>; this is the range of those tags, not an independently surveyed elevation gradient. Sector polygons and areas shown on the Maps page are working approximations derived from supplied sector extents, not surveyed boundaries.</p>
+            <div class="methodology-pills">
+                <span class="method-pill"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Presence records, not abundance surveys</span>
+                <span class="method-pill"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i> WGS84 coordinates where supplied</span>
+                <span class="method-pill"><i class="fa-solid fa-book-atlas" aria-hidden="true"></i> Flora of Jammu &amp; Kashmir reference</span>
+                <span class="method-pill"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Per-record taxon verification flag</span>
+            </div>
+        </article>
+
+        <!-- Catalogued Taxa by Sector -->
+        <section class="density-table-card research-section" aria-labelledby="sector-table-heading">
+            <div class="table-header-bar">
+                <h2 class="table-title" id="sector-table-heading">
+                    <i class="fa-solid fa-tree" aria-hidden="true"></i> Catalogued Taxa by Ecological Sector
+                </h2>
+            </div>
+            <p class="table-note">Counts are derived from the supplied dataset. Records without a sector assignment are listed separately. Map links open the corresponding sector on the vegetation map. <span class="table-scroll-hint">Scroll horizontally to view all columns.</span></p>
+            <div class="table-scroll">
+                <table class="research-table research-table--sectors">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sector Zone</th>
+                            <th scope="col">Records</th>
+                            <th scope="col">Mapped</th>
+                            <th scope="col">Verified</th>
+                            <th scope="col">Recorded Elevation</th>
+                            <th scope="col">Habitat Character</th>
+                        </tr>
+                    </thead>
+                    <tbody id="research-sector-body">
+                        <tr class="sector-row-interactive" data-sector="Pine Ridge Belt" tabindex="0" title="Open Pine Ridge Belt on the vegetation map">
+                            <td>
+                                <div class="sector-tile-content">
+                                    <strong class="sector-name sector-name-pine"><i class="fa-solid fa-tree" aria-hidden="true"></i> Pine Ridge Belt</strong>
+                                    <a class="sector-map-btn" href="maps.html?sector=Pine%20Ridge%20Belt" aria-label="Open Pine Ridge Belt on the vegetation map">
+                                        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> map
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="font-mono" data-sector-stat="total">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="mapped">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="verified">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="elevation">&mdash;</td>
+                            <td>Subtropical conifer stand on the northern ridge</td>
+                        </tr>
+                        <tr class="sector-row-interactive" data-sector="Academic Avenue" tabindex="0" title="Open Academic Avenue on the vegetation map">
+                            <td>
+                                <div class="sector-tile-content">
+                                    <strong class="sector-name sector-name-avenue"><i class="fa-solid fa-road" aria-hidden="true"></i> Academic Avenue</strong>
+                                    <a class="sector-map-btn" href="maps.html?sector=Academic%20Avenue" aria-label="Open Academic Avenue on the vegetation map">
+                                        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> map
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="font-mono" data-sector-stat="total">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="mapped">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="verified">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="elevation">&mdash;</td>
+                            <td>Planted deciduous boulevard</td>
+                        </tr>
+                        <tr class="sector-row-interactive" data-sector="Lower Scrublands" tabindex="0" title="Open Lower Scrublands on the vegetation map">
+                            <td>
+                                <div class="sector-tile-content">
+                                    <strong class="sector-name sector-name-scrub"><i class="fa-solid fa-leaf" aria-hidden="true"></i> Lower Scrublands</strong>
+                                    <a class="sector-map-btn" href="maps.html?sector=Lower%20Scrublands" aria-label="Open Lower Scrublands on the vegetation map">
+                                        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> map
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="font-mono" data-sector-stat="total">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="mapped">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="verified">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="elevation">&mdash;</td>
+                            <td>Dry thorny thicket on the southern terraces</td>
+                        </tr>
+                        <tr class="sector-row-interactive" data-sector="Ravine Corridors" tabindex="0" title="Open Ravine Corridors on the vegetation map">
+                            <td>
+                                <div class="sector-tile-content">
+                                    <strong class="sector-name sector-name-ravine"><i class="fa-solid fa-water" aria-hidden="true"></i> Ravine Corridors</strong>
+                                    <a class="sector-map-btn" href="maps.html?sector=Ravine%20Corridors" aria-label="Open Ravine Corridors on the vegetation map">
+                                        <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> map
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="font-mono" data-sector-stat="total">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="mapped">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="verified">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="elevation">&mdash;</td>
+                            <td>Shaded seasonal drainage corridors</td>
+                        </tr>
+                        <tr class="sector-row-unassigned" data-sector="Unassigned">
+                            <td>
+                                <div class="sector-tile-content">
+                                    <strong class="sector-name sector-name-unassigned"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Unassigned / not georeferenced</strong>
+                                </div>
+                            </td>
+                            <td class="font-mono" data-sector-stat="total">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="mapped">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="verified">&mdash;</td>
+                            <td class="font-mono" data-sector-stat="elevation">Not recorded</td>
+                            <td>Verified datasheet additions without a sector or coordinates</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Field Survey Timetable -->
+        <section class="density-table-card research-section" aria-labelledby="survey-table-heading">
+            <div class="table-header-bar">
+                <h2 class="table-title" id="survey-table-heading">
+                    <i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Field Survey Timetable
+                </h2>
+            </div>
+            <p class="table-note">Statuses reflect the project's survey schedule. Completion records and field sheets are not included in the supplied dataset. <span class="table-scroll-hint">Scroll horizontally to view all columns.</span></p>
+            <div class="table-scroll">
+                <table class="research-table research-table--surveys">
+                    <thead>
+                        <tr>
+                            <th scope="col">Survey Phase</th>
+                            <th scope="col">Target Season</th>
+                            <th scope="col">Target Sectors</th>
+                            <th scope="col">Focus Phenology</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase I: Baseline Quadrats</strong></td>
+                            <td class="font-mono">Pre-Monsoon</td>
+                            <td>Pine Ridge &amp; Academic Avenue</td>
+                            <td>Foliage flush, conifer cone initiation</td>
+                            <td><span class="hazard-chip hazard-safe" data-survey-status="complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase II: Riparian Audit</strong></td>
+                            <td class="font-mono">Monsoon Peak</td>
+                            <td>Ravine Corridors &amp; Watercourses</td>
+                            <td>Fern emergence, flowering of shrubs</td>
+                            <td><span class="hazard-chip hazard-safe" data-survey-status="complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase III: Scrubland Census</strong></td>
+                            <td class="font-mono">Post-Monsoon</td>
+                            <td>Lower Scrublands Margin</td>
+                            <td>Seed maturation, pod setting in <span class="plant-hover-trigger" data-plant="Acacia modesta"><em>Acacia modesta</em> (Phulai)</span></td>
+                            <td><span class="hazard-chip hazard-safe" data-survey-status="complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase IV: Winter Dormancy</strong></td>
+                            <td class="font-mono">Winter Solstice</td>
+                            <td>Campus-wide Transects</td>
+                            <td>Deciduous leaf drop &amp; conifer needle density</td>
+                            <td><span class="hazard-chip hazard-safe" data-survey-status="complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase V: Spring Phenology</strong></td>
+                            <td class="font-mono">Early Spring</td>
+                            <td>Academic Avenue Boulevards</td>
+                            <td><span class="plant-hover-trigger" data-plant="Bauhinia variegata"><em>Bauhinia variegata</em> (Kachnar)</span> &amp; <span class="plant-hover-trigger" data-plant="Cassia fistula"><em>Cassia fistula</em> (Amaltas)</span> flowering peak</td>
+                            <td><span class="hazard-chip hazard-safe" data-survey-status="complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase VI: Longitudinal Synthesis</strong></td>
+                            <td class="font-mono">Academic Year 2026</td>
+                            <td>Centralized Digital GIS</td>
+                            <td>Final baseline reconciliation (175 catalogued taxa)</td>
+                            <td><span class="hazard-chip hazard-irritant" data-survey-status="in-progress">In Progress</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Formatted Academic Citation Reference Box with Copy Action -->
+        <div class="citation-box" id="citationBox">
+            <div class="citation-header">
+                <h2><i class="fa-solid fa-quote-left" aria-hidden="true"></i> Standard Institutional Citation Format</h2>
+                <button type="button" class="btn-copy-citation" id="btnCopyCitation">
+                    <i class="fa-regular fa-clone" aria-hidden="true"></i> <span id="copyBtnText">Copy Citation</span>
+                </button>
+            </div>
+            <div class="citation-text" id="citationContent">
+                Kaul, E. (2026). <em>SMVDU Green Atlas: Campus Vascular Flora &amp; Spatial Microclimate Stratification</em>. Department of Design Your Degree, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K, India. Dataset Version 1.0.
+            </div>
+            <span id="copyStatus" class="sr-only" role="status" aria-live="polite"></span>
+        </div>
+
+    </main>
+
+    <!-- Floating Hovercard Component for Plant Details -->
+    <div id="plantHoverCard" class="plant-hover-popup" role="group" aria-label="Plant details" aria-hidden="true"></div>
+
+    <!-- Fixed Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>SMVDU Green Atlas Project</h4>
+                <p>Engineered and developed independently by <strong>Ekansh Kaul</strong>. Botanical records and field survey telemetry compiled with the assistance from the <strong>Department of Design Your Degree</strong>, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K – 182320.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="database.html">Flora Database</a></li>
+                    <li><a href="maps.html">Vegetation Maps</a></li>
+                    <li><a href="research.html">Sustainability &amp; Audit</a></li>
+                    <li><a href="safety.html">Toxicity &amp; Safety</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institutional Contact</h4>
+                <p>Campus Flora Initiative<br>Email: <span style="color: #ffffff; font-weight: 500;">biodiversity@smvdu.ac.in</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/research.js"></script>
+</body>
+</html>

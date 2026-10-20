@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'sha256-qniwu46ODIC4rO19xw/cZGBTXKro7w2Y8PqLPO2aABE=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com https://cdnjs.cloudflare.com https://api.qrserver.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://server.arcgisonline.com https://api.qrserver.com; worker-src 'self'; manifest-src 'self'">
+    <title>SMVDU Green Atlas — Digital Herbarium &amp; Spatial GIS Portal</title>
+    
+    <!-- Instant Theme Loader: Place this BEFORE your CSS links -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('smvdu_floris_theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <meta name="description" content="Official digital herbarium, spatial GIS vegetation mapping, and vascular flora database of Shri Mata Vaishno Devi University, Kakryal, Katra.">
+    <meta name="theme-color" content="#1e4620">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Master CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="home-page">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Retractable Header Interface -->
+    <header class="home-header">
+        <div class="home-nav-container">
+            <!-- Retractable Nav Trigger Button -->
+            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" aria-controls="retractable-nav-drawer" aria-expanded="false" title="Menu">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <!-- Atlas Wordmark -->
+            <a href="index.html" class="nav-brand" aria-label="Green Atlas — Home">
+                <span class="nav-brand-atlas">GREEN ATLAS</span>
+            </a>
+
+            <!-- Theme Toggle Button -->
+            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Retractable Drawer Panel -->
+        <nav id="retractable-nav-drawer" class="retractable-nav-drawer" aria-hidden="true">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="database.html"><i class="fa-solid fa-book-bookmark"></i> Flora Database</a></li>
+                <li><a href="maps.html"><i class="fa-solid fa-map-location-dot"></i> Vegetation Maps</a></li>
+                <li><a href="research.html"><i class="fa-solid fa-seedling"></i> Sustainability &amp; Audit</a></li>
+                <li><a href="safety.html"><i class="fa-solid fa-shield-halved"></i> Toxicity &amp; Safety</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="nexus-wrapper home-main-wrapper">
+
+        <!-- Centered Institutional Hero with Stacked Typographic Hierarchy -->
+        <section class="portal-identity-hero">
+            <div class="portal-title-stack">
+                <span class="portal-prefix-smvdu">SMVDU</span>
+                <h1 class="portal-master-title">Green Atlas</h1>
+            </div>
+            <p class="portal-action-tagline">Identify • Document • Map • Connect</p>
+            <p class="portal-lead-tagline">
+                Institutional Repository of Campus Vascular Flora &amp; Spatial Microclimate Stratification
+            </p>
+        </section>
+
+        <!-- Academic Narrative & Scope -->
+        <section class="portal-scope-card">
+            <div class="scope-text-block">
+                <h2 class="academic-mission-title">Campus Ecological Mission</h2>
+                <p>
+                    <strong>SMVDU Green Atlas</strong> serves as the official digital herbarium, vegetation GIS atlas, and spatial taxonomic directory for Shri Mata Vaishno Devi University, Kakryal (Katra, J&amp;K). Situated in the dynamic bio-geographical ecotone of the Trikuta foothills at elevations between 780m and 880m above sea level, the university campus supports a unique mosaic of Shiwalik chir pine forest, xerophytic scrublands, broadleaf ravines, and planted academic avenues.
+                </p>
+                <p>
+                    The platform bridges physical field taxonomy and spatial GIS telemetry through standardized physical QR tree plaques mounted on campus specimens. Researchers, students, and visitors can access scientific binomials, verified authority citations, Dogri vernacular ethnobotany, phenological flowering schedules, and clinical toxicity indices directly in the field.
+                </p>
+            </div>
+
+            <div class="scope-pillars-grid">
+                <div class="scope-pillar-item">
+                    <i class="fa-solid fa-seedling"></i>
+                    <h4>Vascular Taxonomy</h4>
+                    <p>Standardized botanical ledger cataloging local indigenous, naturalized, and cultivated woody perennials and herbs.</p>
+                </div>
+                <div class="scope-pillar-item">
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <h4>Spatial GIS Stratification</h4>
+                    <p>Georeferenced boundary zoning and microclimate analysis dividing campus grounds into four distinct ecological sectors.</p>
+                </div>
+                <div class="scope-pillar-item">
+                    <i class="fa-solid fa-notes-medical"></i>
+                    <h4>Clinical Safety Triage</h4>
+                    <p>Emergency toxicity risk indexing, dermatitis hazard classification, and direct triage protocols linked with the SMVDU Medical Centre.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consolidated Data Deck (Contained in matching card enclosure) -->
+        <section class="portal-scope-card telemetry-card-box">
+            <div class="data-deck-header">
+                <span class="eyebrow-tag telemetry-eyebrow">ECOLOGICAL TELEMETRY AT A GLANCE</span>
+                <h3>Consolidated Campus Ecological Metrics</h3>
+            </div>
+            
+            <div class="consolidated-stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Cataloged Vascular Taxa</span>
+                    <span class="stat-value" id="hero-stat-taxa">175</span>
+                    <span class="density-meta">73 verified · 116 georeferenced</span>
+                </div>
+                <div class="stat-card gold">
+                    <span class="stat-label">Botanical Plant Families</span>
+                    <span class="stat-value" id="hero-stat-families">69</span>
+                    <span class="density-meta">Major sub-Himalayan lineages</span>
+                </div>
+                <div class="stat-card cyan">
+                    <span class="stat-label">Ecological Sectors</span>
+                    <span class="stat-value">4 Zones</span>
+                    <span class="density-meta">Ridge, Scrub, Avenue &amp; Ravine</span>
+                </div>
+                <div class="stat-card amber">
+                    <span class="stat-label">Elevation Dynamic Range</span>
+                    <span class="stat-value">780–880m</span>
+                    <span class="density-meta">MSL (Trikuta Shiwalik Belt)</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>SMVDU Green Atlas Project</h4>
+                <p> Engineered and developed independently by <strong>Ekansh Kaul</strong>. Botanical records and field survey telemetry compiled with the assistance from the <strong>Department of Design Your Degree</strong>, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K – 182320.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="database.html">Flora Database</a></li>
+                    <li><a href="maps.html">Vegetation Maps</a></li>
+                    <li><a href="research.html">Sustainability &amp; Audit</a></li>
+                    <li><a href="safety.html">Toxicity &amp; Safety</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institutional Contact</h4>
+                <p>Campus Flora Initiative<br>Email: <span style="color: #ffffff; font-weight: 500;">biodiversity@smvdu.ac.in</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

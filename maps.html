@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'sha256-qniwu46ODIC4rO19xw/cZGBTXKro7w2Y8PqLPO2aABE=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com https://cdnjs.cloudflare.com https://api.qrserver.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://server.arcgisonline.com https://api.qrserver.com; worker-src 'self'; manifest-src 'self'">
+    <title>Vegetation GIS Maps — SMVDU Green Atlas | Digital Herbarium</title>
+
+    <!-- Instant Theme Loader: Place this BEFORE your CSS links -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('smvdu_floris_theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <meta name="description" content="Spatial canopy stratification, microclimate sectors, and geocoded taxa of Shri Mata Vaishno Devi University.">
+    <meta name="theme-color" content="#1e4620">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Leaflet & MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" integrity="sha512-6ZCLMiYwTeli2rVh3XAPxy3YoR5fVxGdH/pz+KMCzRY2M65Emgkw00Yqmhh8qLGeYQ3LbVZGdmOX9KUjSKr0TA==" crossorigin="anonymous">
+
+    <!-- Master CSS & Maps-Specific CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/maps.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Retractable Header Interface -->
+    <header class="home-header">
+        <div class="home-nav-container">
+            <!-- Retractable Nav Trigger Button -->
+            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" aria-controls="retractable-nav-drawer" aria-expanded="false" title="Menu">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <!-- Atlas Wordmark -->
+            <a href="index.html" class="nav-brand" aria-label="Green Atlas — Home">
+                <span class="nav-brand-atlas">GREEN ATLAS</span>
+            </a>
+
+            <!-- Theme Toggle Button -->
+            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Retractable Drawer Panel -->
+        <nav id="retractable-nav-drawer" class="retractable-nav-drawer" aria-hidden="true">
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="database.html"><i class="fa-solid fa-book-bookmark"></i> Flora Database</a></li>
+                <li><a href="maps.html" class="active"><i class="fa-solid fa-map-location-dot"></i> Vegetation Maps</a></li>
+                <li><a href="research.html"><i class="fa-solid fa-seedling"></i> Sustainability &amp; Audit</a></li>
+                <li><a href="safety.html"><i class="fa-solid fa-shield-halved"></i> Toxicity &amp; Safety</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="nexus-wrapper" style="padding-bottom: 3rem;">
+
+        <!-- Header -->
+        <div class="db-header">
+            <div class="db-title">
+                <h1>CAMPUS <span>VEGETATION GIS ATLAS</span></h1>
+                <div class="db-subtitle">
+                    <span class="db-subtitle-line"></span>
+                    <p>Spatial Canopy Stratification, Microclimate Sectors &amp; Geocoded Taxa</p>
+                </div>
+            </div>
+            <div class="status-chip">
+                <div class="status-dot"></div>
+                <span id="map-active-telemetry-badge">GIS ENGINE // RUNNING</span>
+            </div>
+        </div>
+
+        <!-- Telemetry Stats Grid (Dynamically updated via GIS map modules) -->
+        <div class="density-stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Mapped Taxa Points</div>
+                <div class="stat-value" id="map-stat-active-count">—</div>
+                <div class="density-meta" id="map-stat-count-meta">116 mapped of 175 catalogued</div>
+            </div>
+            <div class="stat-card gold">
+                <div class="stat-label">Active Sector Focus</div>
+                <div class="stat-value" style="font-size: 1.45rem;" id="map-stat-active-zone">All Zones Displayed</div>
+                <div class="density-meta" id="map-stat-zone-meta">Ridge, Avenue, Scrub &amp; Ravine</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-label">Elevation Dynamic Range</div>
+                <div class="stat-value" id="map-stat-elevation">780–880m</div>
+                <div class="density-meta" id="map-stat-elevation-meta">MSL (Trikuta Sub-Himalayan Foothills)</div>
+            </div>
+            <div class="stat-card cyan">
+                <div class="stat-label">
+                    Campus Polygon Area
+                    <span class="static-badge">static</span>
+                </div>
+                <div class="stat-value" id="map-stat-campus-area">—</div>
+                <div class="density-meta">Working boundary derived from supplied sector extents</div>
+            </div>
+        </div>
+
+        <!-- Fullscreen Wrapper Enclosing Toolbar, Readout & Map Viewport -->
+        <div id="map-fullscreen-wrapper">
+            <!-- GIS Toolbar: Basemap Layering & Sector Selector -->
+            <div class="map-control-strip">
+                <div class="map-control-group">
+                    <span class="map-control-label">Ecological Sectors:</span>
+                    <div class="button-pill-group">
+                        <button type="button" class="pill-btn active" id="filter-zone-all">All</button>
+                        <button type="button" class="pill-btn" id="filter-zone-pine">Pine Ridge</button>
+                        <button type="button" class="pill-btn" id="filter-zone-avenue">Academic Ave</button>
+                        <button type="button" class="pill-btn" id="filter-zone-scrub">Scrublands</button>
+                        <button type="button" class="pill-btn" id="filter-zone-ravine">Ravines</button>
+                    </div>
+                </div>
+
+                <div class="map-control-group" style="margin-left: auto;">
+                    <button type="button" class="btn-action btn-outline" id="btn-recenter-map" title="Recenter to Campus Core">
+                        <i class="fa-solid fa-crosshairs"></i> Recenter
+                    </button>
+                    <button type="button" class="btn-action btn-outline" id="btn-map-fullscreen" title="Toggle Fullscreen Map View">
+                        <i class="fa-solid fa-expand"></i> Fullscreen
+                    </button>
+                    <button type="button" class="btn-action btn-outline" id="btn-toggle-pinpoint" title="Interactive Coordinate Dropper" aria-pressed="false">
+                        <i class="fa-solid fa-location-dot"></i> Pinpoint
+                    </button>
+
+                    <!-- Settings Dropdown -->
+                    <div style="position: relative;">
+                        <button type="button" class="btn-action btn-outline btn-icon-only" id="btn-map-settings" title="Map Settings" aria-label="Map Settings">
+                            <i class="fa-solid fa-sliders"></i>
+                        </button>
+                        <div id="map-settings-dropdown" class="map-settings-dropdown" style="display: none;">
+                            <div class="dropdown-section">
+                                <div class="dropdown-label">Basemap View</div>
+                                <button type="button" class="layer-option active" id="layer-btn-street" data-layer="street">
+                                    <i class="fa-solid fa-road" style="color: var(--primary); width: 16px; text-align: center;"></i> Street View
+                                </button>
+                                <button type="button" class="layer-option" id="layer-btn-satellite" data-layer="satellite">
+                                    <i class="fa-solid fa-satellite" style="color: #0284c7; width: 16px; text-align: center;"></i> Satellite Imagery
+                                </button>
+                                <button type="button" class="layer-option" id="layer-btn-topo" data-layer="topo">
+                                    <i class="fa-solid fa-mountain" style="color: #b5835a; width: 16px; text-align: center;"></i> Topographic
+                                </button>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-section">
+                                <div class="dropdown-label">Advanced</div>
+                                <button type="button" id="btn-export-geojson-dropdown" class="dropdown-action">
+                                    <i class="fa-solid fa-download"></i> Download GeoJSON
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Pinpoint Coordinate Bar -->
+            <div id="pinpoint-readout" class="pinpoint-bar" style="display: none;" role="status" aria-live="polite">
+                <div class="pinpoint-main">
+                    <span><i class="fa-solid fa-location-crosshairs"></i> Captured Coordinates: <strong id="pinpoint-coords" class="font-mono">--</strong></span>
+                    <span id="pinpoint-accuracy" class="pinpoint-accuracy">Accuracy: not device-measured</span>
+                </div>
+                <div class="pinpoint-actions">
+                    <button type="button" id="btn-copy-coords" class="btn-action" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;">Copy</button>
+                    <button type="button" id="btn-clear-pinpoint" class="btn-action btn-outline" style="padding: 0.25rem 0.65rem; font-size: 0.75rem;">Clear</button>
+                </div>
+            </div>
+
+            <!-- Main GIS Canvas Container with Collapsible Inspector Sidebar -->
+            <div class="map-viewport-container map-viewport-container--tall">
+                <div id="campus-full-map" class="map-canvas" role="region" aria-label="Interactive campus vegetation map with ecological sectors and specimen locations" style="height: 100%; width: 100%; z-index: 1;"></div>
+
+                <!-- Retractable Sector Inspector Sidebar -->
+                <aside id="map-sector-sidebar" class="map-sidebar collapsed">
+                    <div class="sidebar-header">
+                        <h3 id="sidebar-sector-name"><i class="fa-solid fa-circle-info"></i> Sector Inspector</h3>
+                        <button type="button" id="btn-close-sidebar" class="modal-close" aria-label="Close sector inspector">&times;</button>
+                    </div>
+                    <div class="sidebar-body">
+                        <p id="sidebar-sector-desc" style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+                            Select a sector button above, click a map polygon, or choose a sector row in the table below.
+                        </p>
+
+                        <div class="meta-details-list">
+                            <div class="meta-row">
+                                <span class="meta-key">Dominant Canopy</span>
+                                <span class="meta-val" id="sidebar-dominant" style="text-align: right;">Chir Pine, Kachnar, Shisham, Aak, Haritaki</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">Area &amp; Elevation</span>
+                                <span class="meta-val font-mono" id="sidebar-area">~190 Hectares // ~780m – 880m MSL</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">Substrate &amp; Soil</span>
+                                <span class="meta-val" id="sidebar-soil" style="text-align: right;">Sandstone-clay aggregate, loose gravel hillslopes, rocky dry scree.</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-key">Documented Species</span>
+                                <span class="meta-val font-mono" id="sidebar-specimen-count" style="font-weight: 700; color: var(--primary);">116 Mapped Taxa</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Toggle Button for Collapsed Sidebar -->
+                <button type="button" id="btn-toggle-panel" class="sidebar-toggle-btn" title="Toggle Sector Inspector" aria-expanded="false" aria-controls="map-sector-sidebar">
+                    <i class="fa-solid fa-layer-group"></i> Sector Info
+                </button>
+
+                <!-- Retractable Map Legend -->
+                <aside id="map-legend-panel" class="map-legend-panel collapsed" aria-label="Map Legend">
+                    <button type="button" id="btn-toggle-legend" class="map-legend-toggle" title="Toggle Map Legend" aria-expanded="false" aria-controls="map-legend-content">
+                        <i class="fa-solid fa-map"></i> <span>MAP LEGEND</span>
+                    </button>
+                    <div id="map-legend-content" class="map-legend-content" hidden>
+                        <div class="map-legend-row"><span class="legend-swatch legend-campus"></span><span>Campus boundary</span></div>
+                        <div class="map-legend-row"><span class="legend-swatch legend-pine"></span><span>Pine Ridge</span></div>
+                        <div class="map-legend-row"><span class="legend-swatch legend-avenue"></span><span>Academic Avenue</span></div>
+                        <div class="map-legend-row"><span class="legend-swatch legend-scrub"></span><span>Lower Scrublands</span></div>
+                        <div class="map-legend-row"><span class="legend-swatch legend-ravine"></span><span>Ravine Corridors</span></div>
+                        <div class="map-legend-divider"></div>
+                        <div class="map-legend-row"><span class="legend-dot legend-safe"></span><span>Safe flora</span></div>
+                        <div class="map-legend-row"><span class="legend-dot legend-irritant"></span><span>Mild irritant</span></div>
+                        <div class="map-legend-row"><span class="legend-dot legend-toxic"></span><span>Toxic</span></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <!-- Campus Ecological Sectors Ledger Table (Clickable Rows to Highlight Map Sectors) -->
+        <section class="density-table-card" style="margin-top: 2rem;">
+            <div class="table-header-bar">
+                <div class="table-title">
+                    <i class="fa-solid fa-chart-pie"></i> Campus Ecological Sectors &amp; Density Summary
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sector Zone</th>
+                            <th>Elevation Range</th>
+                            <th>Substrate Geology</th>
+                            <th>Dominant Floral Association</th>
+                            <th>Cataloged Taxa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="map-sector-table-body">
+                        <tr class="sector-table-interactive" data-zone="Pine Ridge Belt" tabindex="0" role="button" aria-pressed="false" title="Click to highlight Pine Ridge Belt on map">
+                            <td>
+                                <strong style="color: var(--primary);"><i class="fa-solid fa-tree"></i> Pine Ridge Belt</strong>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Northern Coniferous Perimeter</div>
+                            </td>
+                            <td class="font-mono" style="font-size: 0.81rem;">840m – 880m MSL</td>
+                            <td>Sandstone ridge with acidic pine mulch layer</td>
+                            <td><em>Pinus roxburghii</em>, <em>Mallotus philippensis</em>, <em>Quercus leucotrichophora</em></td>
+                            <td><span class="specimen-count-badge" id="density-row-pine">25</span></td>
+                        </tr>
+                        <tr class="sector-table-interactive" data-zone="Academic Avenue" tabindex="0" role="button" aria-pressed="false" title="Click to highlight Academic Avenue on map">
+                            <td>
+                                <strong style="color: var(--primary);"><i class="fa-solid fa-road"></i> Academic Avenue</strong>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Central Boulevard Corridor</div>
+                            </td>
+                            <td class="font-mono" style="font-size: 0.81rem;">815m – 830m MSL</td>
+                            <td>Engineered loam and landscaped garden alluvium</td>
+                            <td><em>Bauhinia variegata</em>, <em>Dalbergia sissoo</em>, <em>Cassia fistula</em></td>
+                            <td><span class="specimen-count-badge" id="density-row-avenue">30</span></td>
+                        </tr>
+                        <tr class="sector-table-interactive" data-zone="Lower Scrublands" tabindex="0" role="button" aria-pressed="false" title="Click to highlight Lower Scrublands on map">
+                            <td>
+                                <strong style="color: var(--primary);"><i class="fa-solid fa-leaf"></i> Lower Scrublands</strong>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Arid Southern Terraces</div>
+                            </td>
+                            <td class="font-mono" style="font-size: 0.81rem;">780m – 810m MSL</td>
+                            <td>Dry stony sandstone scree with skeletal soil</td>
+                            <td><em>Acacia modesta</em>, <em>Calotropis procera</em>, <em>Ziziphus mauritiana</em></td>
+                            <td><span class="specimen-count-badge" id="density-row-scrub">30</span></td>
+                        </tr>
+                        <tr class="sector-table-interactive" data-zone="Ravine Corridors" tabindex="0" role="button" aria-pressed="false" title="Click to highlight Ravine Corridors on map">
+                            <td>
+                                <strong style="color: var(--primary);"><i class="fa-solid fa-water"></i> Ravine Corridors</strong>
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Shaded Nullah Channels</div>
+                            </td>
+                            <td class="font-mono" style="font-size: 0.81rem;">825m – 865m MSL</td>
+                            <td>Humid alluvial silt with active water seepages</td>
+                            <td><em>Equisetum ramosissimum</em>, <em>Adiantum capillus-veneris</em>, <em>Salix tetrasperma</em></td>
+                            <td><span class="specimen-count-badge" id="density-row-ravine">31</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>SMVDU Green Atlas Project</h4>
+                <p>Engineered and developed independently by <strong>Ekansh Kaul</strong>. Botanical records and field survey telemetry compiled with the assistance from the <strong>Department of Design Your Degree</strong>, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K – 182320.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="database.html">Flora Database</a></li>
+                    <li><a href="maps.html">Vegetation Maps</a></li>
+                    <li><a href="research.html">Sustainability &amp; Audit</a></li>
+                    <li><a href="safety.html">Toxicity &amp; Safety</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institutional Contact</h4>
+                <p>Campus Flora Initiative<br>Email: <span style="color: #ffffff; font-weight: 500;">biodiversity@smvdu.ac.in</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet & Clustering Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" integrity="sha512-OFs3W4DIZ5ZkrDhBFtsCP6JXtMEDGmhl0QPlmWYBJay40TT1n3gt2Xuw8Pf/iezgW9CdabjkNChRqozl/YADmg==" crossorigin="anonymous"></script>
+    <!-- WGS84 ellipsoidal geodesy -->
+    <script src="https://unpkg.com/geographiclib@1.52.1/geographiclib.min.js" integrity="sha512-VPGkz0PoUM3zhBb29QOR2264ffCNr89ukJUvE24OCVBtb8382uReUmXVCKALhp/I/njcfgjBYr3vzeIIsoZ4IA==" crossorigin="anonymous"></script>
+
+    <!-- Global Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/maps-core.js"></script>
+    <script src="js/maps-controls.js"></script>
+</body>
+</html>

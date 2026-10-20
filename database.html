@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'sha256-qniwu46ODIC4rO19xw/cZGBTXKro7w2Y8PqLPO2aABE=' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; img-src 'self' data: blob: https://server.arcgisonline.com https://unpkg.com https://cdnjs.cloudflare.com https://api.qrserver.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://server.arcgisonline.com https://api.qrserver.com; worker-src 'self'; manifest-src 'self'">
+    <title>Flora Database — SMVDU Green Atlas | Digital Herbarium</title>
+
+    <!-- Instant Theme Loader -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('smvdu_floris_theme');
+            var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <meta name="description" content="Searchable campus flora repository with specimen details, field observation intake, CSV export, QR tags and printable botanical plaques.">
+    <meta name="green-atlas-base-url" content="">
+    <meta name="theme-color" content="#1e4620">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Master CSS & Database-Specific CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/database.css">
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <!-- Retractable Header Interface -->
+    <header class="home-header">
+        <div class="home-nav-container">
+            <!-- Retractable Nav Trigger Button -->
+            <button type="button" id="btn-toggle-menu" class="retractable-menu-btn" aria-label="Toggle Navigation Menu" aria-controls="retractable-nav-drawer" aria-expanded="false" title="Menu">
+                <i class="fa-solid fa-bars" id="menu-icon"></i>
+            </button>
+
+            <!-- Atlas Wordmark -->
+            <a href="index.html" class="nav-brand" aria-label="Green Atlas — Home">
+                <span class="nav-brand-atlas">GREEN ATLAS</span>
+            </a>
+
+            <!-- Theme Toggle Button -->
+            <button type="button" id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
+
+        <!-- Retractable Drawer Panel -->
+        <nav id="retractable-nav-drawer" class="retractable-nav-drawer" aria-hidden="true">
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="database.html" class="active" aria-current="page"><i class="fa-solid fa-book-bookmark"></i> Flora Database</a></li>
+                <li><a href="maps.html"><i class="fa-solid fa-map-location-dot"></i> Vegetation Maps</a></li>
+                <li><a href="research.html"><i class="fa-solid fa-seedling"></i> Sustainability &amp; Audit</a></li>
+                <li><a href="safety.html"><i class="fa-solid fa-shield-halved"></i> Toxicity &amp; Safety</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="nexus-wrapper">
+
+        <!-- Header -->
+        <div class="db-header">
+            <div class="db-title">
+                <h1>CAMPUS <span>FLORA REPOSITORY</span></h1>
+                <div class="db-subtitle">
+                    <span class="db-subtitle-line"></span>
+                    <p>Standardized Taxonomy, Vernacular Ethnobotany, QR Anchors &amp; Field Plaques</p>
+                </div>
+            </div>
+            <div class="status-chip">
+                <div class="status-dot"></div>
+                <span id="db-active-sync-badge">DATA ENGINE // CHECKING</span>
+            </div>
+        </div>
+
+        <!-- Storage Warning -->
+        <div id="db-storage-warning" class="db-storage-warning" role="alert" hidden>
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <div>
+                <strong>Persistent storage unavailable.</strong>
+                <span id="db-storage-warning-text">New observations cannot be saved in this browser session.</span>
+            </div>
+        </div>
+
+        <div id="db-migration-note" class="db-migration-note" role="status" hidden>
+            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+            <span id="db-migration-note-text"></span>
+        </div>
+
+        <!-- Telemetry Stats Grid -->
+        <div class="density-stats-grid" aria-label="Flora database telemetry">
+            <div class="stat-card">
+                <div class="stat-label">Catalogued Taxa</div>
+                <div class="stat-value" id="db-stat-total">&mdash;</div>
+                <div class="density-meta" id="db-meta-total">Loading records&hellip;</div>
+            </div>
+            <div class="stat-card gold">
+                <div class="stat-label">Botanical Families</div>
+                <div class="stat-value" id="db-stat-families">&mdash;</div>
+                <div class="density-meta" id="db-meta-families">Taxonomic breadth of the catalogue</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-label">Field Observations Logged</div>
+                <div class="stat-value" id="db-stat-observations">&mdash;</div>
+                <div class="density-meta" id="db-meta-observations">Records added beyond the catalogued dataset</div>
+            </div>
+            <div class="stat-card cyan">
+                <div class="stat-label">Currently Filtered</div>
+                <div class="stat-value" id="db-stat-visible">&mdash;</div>
+                <div class="density-meta" id="db-meta-visible">Matching query parameters</div>
+            </div>
+        </div>
+
+        <p id="db-status-announcer" class="sr-only" role="status" aria-live="polite"></p>
+
+        <!-- Toolbar & Filter Console -->
+        <div class="db-filter-console">
+            <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="flora-search" placeholder="Search by name, family, habit, toxicity, IUCN status, or notes..." aria-label="Search the campus flora database" autocomplete="off">
+            </div>
+
+            <!-- Filters Dropdown Button -->
+            <div class="filters-wrap">
+                <button type="button" id="btn-filters" class="btn-action btn-outline" aria-controls="filters-dropdown" aria-expanded="false" title="Filter by Ecological Sector, Habit, or Toxicity">
+                    <i class="fa-solid fa-sliders"></i> Filters
+                </button>
+                <div id="filters-dropdown" class="filters-dropdown" hidden>
+                    <div class="dropdown-section">
+                        <label for="filter-zone" class="dropdown-label">Ecological Sector</label>
+                        <select id="filter-zone" class="select-filter dropdown-select">
+                            <option value="ALL">All Ecological Sectors</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-section">
+                        <label for="filter-habit" class="dropdown-label">Plant Habit</label>
+                        <select id="filter-habit" class="select-filter dropdown-select">
+                            <option value="ALL">All Habits</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-section">
+                        <label for="filter-toxicity" class="dropdown-label">Toxicity Profile</label>
+                        <select id="filter-toxicity" class="select-filter dropdown-select">
+                            <option value="ALL">All Toxicity Profiles</option>
+                            <option value="Safe">Safe (listed non-toxic)</option>
+                            <option value="Mild Irritant">Mild Irritant</option>
+                            <option value="Toxic">Toxic</option>
+                            <option value="Unknown">Unknown / Not assessed</option>
+                        </select>
+                    </div>
+
+                    <div class="dropdown-section filter-reset-section">
+                        <button type="button" id="btn-reset-filters" class="btn-action btn-outline filter-reset-btn" title="Reset all search and filter parameters">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verified Quick Toggle -->
+            <button type="button" id="btn-toggle-verified" class="btn-action btn-outline" aria-pressed="false" title="Show only verified plant species">
+                <i class="fa-solid fa-check-circle"></i> Verified Only
+            </button>
+
+            <!-- Export & Intake Actions -->
+            <div class="action-btn-group">
+                <button type="button" id="btn-open-modal" class="btn-action">
+                    <i class="fa-solid fa-plus"></i> Log Obs.
+                </button>
+
+                <button type="button" id="btn-export-csv" class="btn-action btn-outline" title="Export current catalog to CSV spreadsheet">
+                    <i class="fa-solid fa-file-csv"></i> All CSV
+                </button>
+
+                <button type="button" id="btn-export-verified-csv" class="btn-action btn-outline" title="Export separate spreadsheet of verified plants">
+                    <i class="fa-solid fa-file-excel"></i> Verified CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabular Database Card with Sealed Pagination -->
+        <section class="density-table-card">
+            <div class="table-header-bar">
+                <div class="table-title">
+                    <i class="fa-solid fa-table-list"></i> Cataloged Campus Taxa Ledger
+                </div>
+            </div>
+
+            <p class="db-table-hint">Scroll horizontally to view all columns.</p>
+
+            <div class="table-scroll">
+                <table id="db-main-table" aria-label="Cataloged campus vascular taxa">
+                    <caption class="sr-only">Catalogued campus vascular taxa with actions to inspect specimen details or generate a QR tag.</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Specimen</th>
+                            <th scope="col">Dogri Vernacular</th>
+                            <th scope="col">Family</th>
+                            <th scope="col">Habit</th>
+                            <th scope="col">Sector Zone</th>
+                            <th scope="col">Toxicity Profile</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="flora-table-body">
+                        <!-- Populated dynamically via js/database.js -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Clean Table Pagination Bar -->
+            <div class="table-pagination-bar">
+                <div class="pagination-info" id="pagination-info" aria-live="polite">
+                    Showing <strong>&mdash;</strong> of <strong>&mdash;</strong> specimens
+                </div>
+                <div class="pagination-controls">
+                    <button type="button" id="btn-prev-page" class="pagination-btn" aria-label="Previous page" title="Previous Page" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span class="pagination-page-indicator">
+                        Page <span id="current-page-num" class="font-mono">&mdash;</span> of <span id="total-pages-num" class="font-mono">&mdash;</span>
+                    </span>
+                    <button type="button" id="btn-next-page" class="pagination-btn" aria-label="Next page" title="Next Page" disabled>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Specimen Detailed Inspection Modal Card -->
+    <div id="specimen-card-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-card-botanical" aria-hidden="true">
+        <div class="modal-dialog modal-dialog--card">
+            <div class="modal-header">
+                <h3 id="modal-card-botanical"><i class="fa-solid fa-seedling"></i> Specimen Details</h3>
+                <button type="button" id="btn-close-card-modal" class="modal-close" aria-label="Close specimen details">&times;</button>
+            </div>
+            <div class="modal-form modal-body">
+                <div id="modal-card-photo-container" class="modal-photo-container" hidden>
+                    <img id="modal-card-photo" class="modal-photo" src="" alt="Specimen photo">
+                </div>
+                <div class="modal-chip-row">
+                    <span id="modal-card-id" class="font-mono modal-specimen-id">SMVDU-FL-001</span>
+                    <span id="modal-card-toxicity" class="hazard-chip hazard-safe">Safe</span>
+                </div>
+                <div id="modal-card-common" class="modal-common-name">Chir Pine</div>
+                <div id="modal-card-dogri" class="dogri-badge">Dogri: Cheel</div>
+
+                <div class="meta-details-list modal-meta-list">
+                    <div class="meta-row"><span class="meta-key">Family</span><span class="meta-val" id="modal-card-family">Pinaceae</span></div>
+                    <div class="meta-row"><span class="meta-key">Habit</span><span class="meta-val" id="modal-card-habit">Tree</span></div>
+                    <div class="meta-row"><span class="meta-key">Sector Zone</span><span class="meta-val" id="modal-card-zone">Pine Ridge Belt</span></div>
+                    <div class="meta-row"><span class="meta-key">Elevation</span><span class="meta-val font-mono" id="modal-card-elevation">840m MSL</span></div>
+                    <div class="meta-row"><span class="meta-key">GPS Location</span><span class="meta-val font-mono" id="modal-card-coords">32.94310° N, 74.95420° E</span></div>
+                    <div class="meta-row"><span class="meta-key">IUCN Status</span><span class="meta-val" id="modal-card-iucn">Not recorded</span></div>
+                </div>
+
+                <div class="modal-text-section">
+                    <span class="meta-key">Phenology Schedule</span>
+                    <p id="modal-card-phenology" class="modal-text-value">Not recorded</p>
+                </div>
+
+                <div class="modal-text-section">
+                    <span class="meta-key">Ethnobotanical / Field Notes</span>
+                    <p id="modal-card-notes" class="modal-text-value modal-text-muted">Not recorded</p>
+                </div>
+
+                <div class="modal-actions modal-actions-spaced">
+                    <a id="modal-card-maplink" href="#" class="btn-action btn-outline"><i class="fa-solid fa-map-location-dot"></i> GIS Map</a>
+                    <button type="button" id="modal-card-printbtn" class="btn-action"><i class="fa-solid fa-print"></i> Print 4x6 Plaque</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dedicated Specimen QR Code & Field Tagging Modal -->
+    <div id="specimen-qr-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog--qr">
+            <div class="modal-header">
+                <h3 id="qr-modal-title"><i class="fa-solid fa-qrcode"></i> Specimen QR Tag</h3>
+                <button type="button" id="btn-close-specimen-qr" class="modal-close" aria-label="Close QR tag">&times;</button>
+            </div>
+            <div class="modal-body modal-body--centered">
+                <div class="qr-identity">
+                    <span id="qr-modal-id" class="font-mono qr-specimen-id">SMVDU-FL-001</span>
+                    <h4 id="qr-modal-botanical" class="qr-botanical">Pinus roxburghii</h4>
+                    <p id="qr-modal-common" class="qr-common">Chir Pine (Cheel)</p>
+                </div>
+
+                <div class="qr-frame">
+                    <img id="specimen-qr-image" src="" alt="Specimen QR code" width="200" height="200">
+                </div>
+
+                <p id="qr-modal-target" class="qr-target font-mono"></p>
+                <p id="qr-modal-error" class="modal-error" role="alert" hidden></p>
+                <p class="modal-note">Scan with any smartphone camera or campus terminal to open this specimen's field telemetry and GPS location.</p>
+
+                <div class="qr-actions">
+                    <button type="button" id="btn-download-qr" class="btn-action btn-outline">
+                        <i class="fa-solid fa-download"></i> Save PNG
+                    </button>
+                    <button type="button" id="btn-print-qr-plaque" class="btn-action">
+                        <i class="fa-solid fa-print"></i> Print 4x6 Plaque
+                    </button>
+                </div>
+                <p id="qr-action-status" class="sr-only" role="status" aria-live="polite"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Field Observation Intake Modal with One-Tap GPS and Photo Uploader -->
+    <div id="observation-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="observation-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog--observation">
+            <div class="modal-header">
+                <h3 id="observation-modal-title"><i class="fa-solid fa-clipboard-check"></i> Field Specimen Observation Intake</h3>
+                <button type="button" id="btn-close-modal" class="modal-close" aria-label="Close observation form">&times;</button>
+            </div>
+            <form id="form-add-specimen" class="modal-form modal-body">
+                <div id="observation-form-status" class="form-status" role="status" aria-live="polite" hidden></div>
+                <div id="duplicate-warning" class="form-warning" role="alert" hidden></div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-botanical">Botanical Name (Scientific) *</label>
+                        <input type="text" id="input-botanical" placeholder="e.g. Pinus roxburghii" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-common">Common English Name *</label>
+                        <input type="text" id="input-common" placeholder="e.g. Chir Pine" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-dogri">Dogri Vernacular Name</label>
+                        <input type="text" id="input-dogri" placeholder="e.g. Cheel" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-family">Botanical Family *</label>
+                        <input type="text" id="input-family" placeholder="e.g. Pinaceae" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-habit">Plant Habit *</label>
+                        <select id="input-habit" required>
+                            <option value="Tree">Tree</option>
+                            <option value="Shrub">Shrub</option>
+                            <option value="Herb">Herb</option>
+                            <option value="Climber">Climber</option>
+                            <option value="Grass">Grass</option>
+                            <option value="Succulent">Succulent</option>
+                            <option value="Palm">Palm</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-zone">Ecological Sector Zone *</label>
+                        <select id="input-zone" required>
+                            <option value="Pine Ridge Belt">Pine Ridge Belt</option>
+                            <option value="Academic Avenue">Academic Avenue</option>
+                            <option value="Lower Scrublands">Lower Scrublands</option>
+                            <option value="Ravine Corridors">Ravine Corridors</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-toxicity">Toxicity Assessment *</label>
+                        <select id="input-toxicity" required>
+                            <option value="" selected disabled>Select assessment&hellip;</option>
+                            <option value="Safe">Safe (listed non-toxic)</option>
+                            <option value="Mild Irritant">Mild Irritant</option>
+                            <option value="Toxic">Toxic</option>
+                            <option value="Unknown">Unknown / Not assessed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-iucn">IUCN Status (optional)</label>
+                        <select id="input-iucn">
+                            <option value="">Not recorded</option>
+                            <option value="LC">Least Concern (LC)</option>
+                            <option value="NT">Near Threatened (NT)</option>
+                            <option value="VU">Vulnerable (VU)</option>
+                            <option value="EN">Endangered (EN)</option>
+                            <option value="CR">Critically Endangered (CR)</option>
+                            <option value="DD">Data Deficient (DD)</option>
+                            <option value="NE">Not Evaluated (NE)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="input-elevation">Elevation Range</label>
+                        <input type="text" id="input-elevation" placeholder="e.g. 840m MSL">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-phenology">Phenology Notes</label>
+                        <input type="text" id="input-phenology" placeholder="e.g. Flowering; fruiting; leaf flush">
+                    </div>
+                </div>
+
+                <div class="gps-panel">
+                    <div class="gps-panel-header">
+                        <span class="font-mono gps-panel-title">
+                            <i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i> SPATIAL SATELLITE FIX
+                        </span>
+                        <button type="button" id="btn-acquire-gps" class="btn-action btn-outline btn-gps">
+                            <i class="fa-solid fa-crosshairs"></i> Get Current GPS
+                        </button>
+                    </div>
+                    <div class="form-row gps-coordinate-row">
+                        <div class="form-group">
+                            <label for="input-lat">Latitude (WGS84) *</label>
+                            <input type="number" step="0.00001" min="-90" max="90" inputmode="decimal" id="input-lat" placeholder="32.94190" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-lng">Longitude (WGS84) *</label>
+                            <input type="number" step="0.00001" min="-180" max="180" inputmode="decimal" id="input-lng" placeholder="74.95380" required>
+                        </div>
+                    </div>
+                    <div id="gps-status-msg" class="gps-status font-mono" role="status" aria-live="polite">
+                        Manual entry active or click "Get Current GPS" during field sampling.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-photo">Field Specimen Photo (auto-compressed for IndexedDB)</label>
+                    <input type="file" id="input-photo" accept="image/*">
+                    <p class="form-help">JPEG, PNG or WebP; maximum 10 MB. Images are resized before storage.</p>
+                    <div id="photo-preview-wrap" class="photo-preview" hidden>
+                        <img id="photo-preview-img" class="photo-preview-img" alt="Compressed preview">
+                        <span id="photo-status" class="font-mono photo-status" role="status" aria-live="polite">Optimized</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-notes">Ecological Field Observations &amp; Ethnobotanical Use</label>
+                    <textarea id="input-notes" rows="3" placeholder="Record bark texture, phenological stage, traditional use, or micro-habitat context. Leave blank if not observed."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="btn-cancel-modal" class="btn-action btn-outline">Cancel</button>
+                    <button type="submit" id="btn-submit-observation" class="btn-action"><i class="fa-solid fa-floppy-disk"></i> Commit Observation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden Printable 4x6 Plaque Template -->
+    <div id="plaque-print-stage" class="print-only"></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>SMVDU Green Atlas Project</h4>
+                <p>Engineered and developed independently by <strong>Ekansh Kaul</strong>. Botanical records and field survey telemetry compiled with the assistance from the <strong>Department of Design Your Degree</strong>, Shri Mata Vaishno Devi University, Kakryal, Katra, J&amp;K – 182320.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="database.html">Flora Database</a></li>
+                    <li><a href="maps.html">Vegetation Maps</a></li>
+                    <li><a href="research.html">Sustainability &amp; Audit</a></li>
+                    <li><a href="safety.html">Toxicity &amp; Safety</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Institutional Contact</h4>
+                <p>Campus Flora Initiative<br>Email: <span style="color: #ffffff; font-weight: 500;">biodiversity@smvdu.ac.in</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Scripts: data engine MUST load before database controller -->
+    <script src="js/qrcode.min.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/database.js"></script>
+</body>
+</html>

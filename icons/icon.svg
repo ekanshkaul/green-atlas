@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="SMVDU Green Atlas leaf mark">
+    <rect width="512" height="512" fill="#1e4620"/>
+    <circle cx="256" cy="256" r="196" fill="none" stroke="#b5835a" stroke-width="8" opacity="0.9"/>
+    <g transform="rotate(-10 256 256)">
+        <path d="M256 78 C342 132 386 214 360 306 C342 372 300 414 256 434 C212 414 170 372 152 306 C126 214 170 132 256 78 Z" fill="#fbf8f5"/>
+        <path d="M256 112 V400" stroke="#1e4620" stroke-width="10" stroke-linecap="round"/>
+        <path d="M256 196 C228 180 206 156 196 128 M256 246 C284 230 306 206 316 178 M256 296 C228 280 206 256 196 228 M256 346 C284 330 306 306 316 278" stroke="#b5835a" stroke-width="7" stroke-linecap="round" fill="none"/>
+    </g>
+</svg>

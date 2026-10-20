@@ -1,0 +1,992 @@
+/* =========================================================
+   SMVDU GREEN ATLAS: MAPS ENGINE STYLESHEET (css/maps.css)
+   Interactive Hovercards, Responsive Viewport, Sector Polygons,
+   Fullscreen Mode & Telemetry Tile Overrides
+   ========================================================= */
+
+/* --- Static Badge Indicator --- */
+.static-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.12rem 0.45rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-muted);
+    vertical-align: middle;
+    margin-left: 0.45rem;
+}
+
+[data-theme="dark"] .static-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #9ca3af;
+}
+
+/* --- GIS Control Toolbar & Pill Buttons --- */
+.map-control-strip {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.map-control-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.map-control-group:last-child {
+    margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.map-control-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.button-pill-group {
+    display: inline-flex;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.pill-btn {
+    border: none;
+    background: transparent;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+.pill-btn:hover {
+    color: var(--text-dark);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.pill-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Coordinate Pinpoint Readout Bar */
+.pinpoint-bar {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.84rem;
+    color: var(--text-dark);
+}
+
+/* --- Map Viewport, Stage & Fullscreen Modes --- */
+.map-viewport-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    min-height: 520px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    background: var(--bg-secondary);
+}
+
+.map-viewport-container--tall {
+    height: 64vh;
+    min-height: 520px;
+}
+
+.map-viewport-container.custom-fullscreen {
+    overflow: hidden;
+}
+
+.map-viewport-container.custom-fullscreen .map-canvas {
+    flex: 1;
+    height: 100% !important;
+}
+
+.map-canvas {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* --- Floating Inspector Overlay Sidebar & Restyled Close Button --- */
+.map-sidebar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 340px;
+    max-width: calc(100% - 28px);
+    max-height: calc(100% - 28px);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.map-sidebar.collapsed {
+    transform: translateX(380px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar-header {
+    padding: 0.95rem 1.15rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    font-size: 0.98rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+/* Restyled Sidebar Close Button */
+#map-sector-sidebar .modal-close,
+.sidebar-header .modal-close,
+#btn-close-sidebar {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    font-size: 1.25rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--text-muted) !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+#map-sector-sidebar .modal-close:hover,
+#btn-close-sidebar:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: #ef4444 !important;
+    transform: scale(1.05);
+}
+
+.sidebar-body {
+    padding: 1.15rem;
+    overflow-y: auto;
+}
+
+/* =========================================================
+   SECTOR INFO + MAP LEGEND TOGGLE BUTTONS
+   ========================================================= */
+
+.sidebar-toggle-btn,
+.map-legend-toggle {
+    position: absolute;
+    right: 14px;
+    z-index: 990;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    height: 34px;
+    padding: 0 0.85rem;
+
+    background: var(--surface);
+    color: var(--primary);
+
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-md);
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Sector Info position */
+.sidebar-toggle-btn {
+    top: 14px;
+}
+
+/* Map Legend sits directly below Sector Info */
+.map-legend-toggle {
+    top: 58px;
+}
+
+/* Same icon sizing */
+.sidebar-toggle-btn i,
+.map-legend-toggle i {
+    font-size: 0.82rem;
+    width: 1rem;
+    text-align: center;
+}
+
+/* Hover */
+.sidebar-toggle-btn:hover,
+.map-legend-toggle:hover {
+    background: var(--bg-hover);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Focus */
+.sidebar-toggle-btn:focus-visible,
+.map-legend-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   MAP LEGEND PANEL
+   ========================================================= */
+
+.map-legend-panel {
+    position: absolute;
+    top: 58px;
+    right: 14px;
+    z-index: 989;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    pointer-events: none;
+}
+
+/* The toggle itself remains clickable */
+.map-legend-panel .map-legend-toggle {
+    position: relative;
+    top: auto;
+    right: auto;
+    pointer-events: auto;
+}
+
+/* Legend content */
+.map-legend-content {
+    width: 190px;
+    margin-top: 6px;
+    padding: 0.7rem 0.8rem;
+
+    background: var(--surface);
+    color: var(--text-dark);
+
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+
+    box-shadow: var(--shadow-md);
+
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.72rem;
+    line-height: 1.35;
+
+    pointer-events: auto;
+
+    /* Smooth transition matching sidebar panel */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Retracted state */
+.map-legend-panel.collapsed .map-legend-content {
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Expanded state */
+.map-legend-panel:not(.collapsed) .map-legend-content {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.meta-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.84rem;
+}
+
+.meta-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.meta-val {
+    color: var(--text-dark);
+}
+
+/* --- Leaflet Marker Clusters & Pin Nodes --- */
+.custom-gis-pin-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gis-pin-node {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.gis-pin-node:hover {
+    transform: scale(1.22);
+}
+
+.gis-pin-node.marker-safe { background-color: #15803d; }
+.gis-pin-node.marker-irritant { background-color: #d97706; }
+.gis-pin-node.marker-toxic { background-color: #dc2626; }
+.gis-pin-node.marker-unknown { background-color: #64748b; }
+
+/* --- Plant Hover Box Card (Persistent Popup Integration) --- */
+.plant-hover-card {
+    width: 290px;
+    padding: 1rem 1.25rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    pointer-events: auto;
+}
+
+.plant-hover-card .ph-header {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.65rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.plant-hover-card .ph-botanical {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--primary);
+    line-height: 1.25;
+}
+
+[data-theme="dark"] .plant-hover-card .ph-botanical {
+    color: #4ade80;
+}
+
+.plant-hover-card .ph-common {
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    margin-top: 0.15rem;
+    font-weight: 500;
+}
+
+.plant-hover-card .ph-details {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 0.75rem;
+}
+
+.plant-hover-card .ph-details div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+}
+
+.plant-hover-card .ph-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--primary);
+    color: #ffffff !important;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.4rem 0.65rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.plant-hover-card .ph-btn:hover {
+    background: var(--primary-light);
+}
+
+/* --- Interactive Sector Table Row Highlighting --- */
+.sector-table-interactive {
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-left-color 0.15s ease;
+}
+
+.sector-table-interactive:hover td {
+    background-color: var(--bg-hover) !important;
+}
+
+.sector-table-interactive.active-sector-row td {
+    background-color: var(--primary-muted) !important;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .sector-table-interactive.active-sector-row td {
+    background-color: rgba(45, 106, 48, 0.25) !important;
+}
+
+/* Tooltip on Hovering Sectors */
+.sector-map-tooltip {
+    background: rgba(17, 24, 39, 0.9) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-size: 0.76rem !important;
+    padding: 4px 8px !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* --- Marker Cluster Nodes --- */
+.marker-cluster-small { background-color: rgba(34, 197, 94, 0.4); }
+.marker-cluster-small div { background-color: rgba(21, 128, 61, 0.9); color: #ffffff; }
+
+.marker-cluster-medium { background-color: rgba(234, 179, 8, 0.4); }
+.marker-cluster-medium div { background-color: rgba(161, 98, 7, 0.9); color: #ffffff; }
+
+.marker-cluster-large { background-color: rgba(249, 115, 22, 0.4); }
+.marker-cluster-large div { background-color: rgba(194, 65, 12, 0.9); color: #ffffff; }
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 15px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 30px;
+}
+
+/* --- Settings Dropdown Menu --- */
+.map-settings-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    min-width: 200px;
+    padding: 0;
+}
+
+.dropdown-section {
+    padding: 0.75rem 0.85rem;
+}
+
+.dropdown-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.layer-option,
+.dropdown-action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+    margin-bottom: 0.35rem;
+}
+
+.layer-option:last-child,
+.dropdown-action:last-child {
+    margin-bottom: 0;
+}
+
+.layer-option:hover,
+.dropdown-action:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-subtle);
+}
+
+.layer-option.active {
+    background: var(--primary-muted);
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0.5rem 0;
+}
+
+/* --- Dark Theme Overrides --- */
+[data-theme="dark"] .map-sidebar {
+    background: #161b22 !important;
+    border-color: #30363d !important;
+}
+
+[data-theme="dark"] .sidebar-header {
+    background: #0d1117 !important;
+    border-bottom: 1px solid #30363d !important;
+}
+
+[data-theme="dark"] .sidebar-header h3 {
+    color: #4ade80 !important;
+}
+
+[data-theme="dark"] .sidebar-toggle-btn {
+    background: var(--surface);
+    color: var(--text-dark);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .plant-hover-card .ph-btn {
+    background: #2d6a30;
+}
+
+[data-theme="dark"] .plant-hover-card .ph-btn:hover {
+    background: #3f8f45;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .map-control-strip {
+        padding: 0.5rem 0.75rem;
+        gap: 0.5rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .map-control-group {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 0.35rem;
+    }
+
+    .map-viewport-container {
+        height: 480px;
+    }
+
+    .map-sidebar {
+        top: 8px;
+        right: 8px;
+        left: 8px;
+        width: auto;
+        max-height: 50%;
+    }
+
+    .plant-hover-card {
+        width: 250px;
+    }
+}
+
+/* --- True Fullscreen Map View & Control Expansion --- */
+#map-fullscreen-wrapper.true-fullscreen {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    background: var(--bg-warm, #121212) !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+#map-fullscreen-wrapper.true-fullscreen .map-viewport-container {
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+
+#map-fullscreen-wrapper.true-fullscreen .map-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* --- Field Session Restoration Toast --- */
+.field-restore-toast {
+    position: relative !important;
+    margin-top: 1rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: fit-content !important;
+    z-index: 9999 !important;
+    background: var(--surface, #1e293b) !important;
+    border: 1px solid var(--border-color, #334155) !important;
+    border-radius: 8px !important;
+    padding: 0.85rem 1.4rem !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+    font-size: 0.9rem !important;
+    color: var(--text-dark, #f8fafc) !important;
+    white-space: nowrap !important;
+    animation: toastSlideDown 0.3s ease-out !important;
+}
+
+@keyframes toastSlideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.field-restore-toast .toast-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.field-restore-toast .btn-toast {
+    background: var(--primary, #15803d) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 6px !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+}
+
+.field-restore-toast .btn-toast:hover {
+    background: var(--primary-light, #16a34a) !important;
+}
+
+/* --- GIS Semantic Color Tokens --- */
+:root {
+    --gis-safe: #15803d;
+    --gis-safe-soft: #22c55e;
+    --gis-irritant: #d97706;
+    --gis-irritant-soft: #eab308;
+    --gis-toxic: #dc2626;
+    --gis-unknown: #64748b;
+    --gis-pine: #15803d;
+    --gis-avenue: #a16207;
+    --gis-scrub: #c2410c;
+    --gis-ravine: #0e7490;
+    --gis-campus: #14532d;
+}
+
+.legend-swatch {
+    width: 18px;
+    height: 8px;
+    border-radius: 2px;
+    border: 1px solid currentColor;
+    flex: 0 0 auto;
+}
+
+.legend-campus { background: rgba(34, 197, 94, 0.08); color: var(--gis-campus); border-style: dashed; }
+.legend-pine { background: rgba(34, 197, 94, 0.45); color: var(--gis-pine); }
+.legend-avenue { background: rgba(234, 179, 8, 0.45); color: var(--gis-avenue); }
+.legend-scrub { background: rgba(249, 115, 22, 0.45); color: var(--gis-scrub); }
+.legend-ravine { background: rgba(6, 182, 212, 0.45); color: var(--gis-ravine); }
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+}
+.legend-safe { background: var(--gis-safe); }
+.legend-irritant { background: var(--gis-irritant); }
+.legend-toxic { background: var(--gis-toxic); }
+
+.map-legend-divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: 0.45rem 0;
+}
+
+.map-north-arrow {
+    background: var(--surface);
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: var(--shadow-md);
+    font-family: 'Inter', system-ui, sans-serif;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    user-select: none;
+}
+
+.north-arrow-glyph {
+    color: var(--primary);
+    font-size: 1.1rem;
+    line-height: 0.9;
+}
+
+.north-arrow-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 800;
+}
+
+.map-legend {
+    min-width: 168px;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+}
+
+.map-legend-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.45px;
+    margin-bottom: 0.45rem;
+    color: var(--primary);
+}
+
+.map-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0.22rem 0;
+}
+
+.map-inline-notification {
+    position: absolute;
+    top: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: min(92%, 520px);
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-dark);
+    box-shadow: var(--shadow-lg);
+    font-size: 0.78rem;
+}
+
+.map-inline-notification.warning { border-color: #d97706; }
+.map-inline-notification.success { border-color: var(--primary); }
+
+/* --- Pinpoint Readout --- */
+.pinpoint-main,
+.pinpoint-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pinpoint-main { min-width: 0; flex-wrap: wrap; }
+.pinpoint-accuracy {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* --- Active / Keyboard Focus --- */
+.pill-btn:focus-visible,
+.layer-option:focus-visible,
+.dropdown-action:focus-visible,
+.sector-table-interactive:focus-visible,
+#btn-toggle-pinpoint:focus-visible,
+#btn-clear-pinpoint:focus-visible,
+#btn-copy-coords:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.sector-table-interactive {
+    outline: none;
+}
+
+/* --- Mobile GIS Controls --- */
+@media (max-width: 768px) {
+    .button-pill-group {
+        width: 100%;
+        flex-wrap: wrap;
+        border-radius: 12px;
+    }
+
+    .pill-btn {
+        flex: 1 1 auto;
+        min-height: 40px;
+        justify-content: center;
+    }
+
+    .map-control-group:last-child {
+        margin-left: 0;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .map-control-group:last-child > * {
+        flex: 1 1 auto;
+    }
+
+    .pinpoint-bar {
+        align-items: flex-start;
+        gap: 0.75rem;
+        flex-direction: column;
+    }
+
+    .pinpoint-actions {
+        width: 100%;
+    }
+
+    .pinpoint-actions button {
+        flex: 1 1 0;
+    }
+
+    .map-legend-panel {
+        top: 55px;
+        right: 8px;
+    }
+
+    .map-legend-content {
+        font-size: 0.68rem;
+    }
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    .map-sidebar,
+    .pill-btn,
+    .gis-pin-node,
+    .field-restore-toast,
+    .map-inline-notification,
+    .layer-option,
+    .dropdown-action,
+    .map-legend-content {
+        transition: none !important;
+        animation: none !important;
+    }
+    * {
+        scroll-behavior: auto !important;
+    }
+}
+
+/* --- GIS Palette Integration --- */
+.gis-pin-node.marker-safe { background-color: var(--gis-safe); }
+.gis-pin-node.marker-irritant { background-color: var(--gis-irritant); }
+.gis-pin-node.marker-toxic { background-color: var(--gis-toxic); }
+.gis-pin-node.marker-unknown { background-color: var(--gis-unknown); }
+.marker-cluster-small { background-color: color-mix(in srgb, var(--gis-safe-soft) 40%, transparent); }
+.marker-cluster-small div { background-color: var(--gis-safe); }
+.marker-cluster-medium { background-color: color-mix(in srgb, var(--gis-irritant-soft) 40%, transparent); }
+.marker-cluster-medium div { background-color: var(--gis-avenue); }
+.marker-cluster-large { background-color: color-mix(in srgb, #f97316 40%, transparent); }
+.marker-cluster-large div { background-color: var(--gis-scrub); }

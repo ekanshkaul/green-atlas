@@ -1,0 +1,608 @@
+/* =========================================================
+   SMVDU GREEN ATLAS: RESEARCH & AUDIT STYLESHEET (research.css)
+   Carbon Analytics, Field Survey Timetables, Sector Telemetry,
+   Interactive Plant Hovercards & Academic Citations
+   ========================================================= */
+
+/* --- Provisional Audit Status Chip --- */
+.research-status-chip {
+    border-color: rgba(217, 119, 6, 0.45);
+}
+
+.research-status-chip .status-dot {
+    background: #d97706;
+    box-shadow: 0 0 8px rgba(217, 119, 6, 0.45);
+}
+
+.research-status-chip span {
+    color: #b45309;
+}
+
+[data-theme="dark"] .research-status-chip span {
+    color: #fbbf24;
+}
+
+/* --- Data Scope Notice --- */
+.research-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(2, 132, 199, 0.32);
+    border-left: 4px solid var(--accent-cyan);
+    border-radius: 8px;
+    background: rgba(2, 132, 199, 0.07);
+    color: var(--text-dark);
+}
+
+.research-notice > i {
+    margin-top: 0.2rem;
+    color: var(--accent-cyan);
+    font-size: 1.2rem;
+    flex: 0 0 auto;
+}
+
+.research-notice h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    color: var(--text-heading);
+}
+
+.research-notice p {
+    margin: 0.35rem 0 0;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+.research-notice p:first-of-type {
+    margin-top: 0;
+}
+
+[data-theme="dark"] .research-notice {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.35);
+    border-left-color: #38bdf8;
+}
+
+[data-theme="dark"] .research-notice > i {
+    color: #38bdf8;
+}
+
+/* --- Audit Methodology Narrative Card --- */
+.audit-narrative-card {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem 2.25rem;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+    position: relative;
+    border-top: 4px solid var(--primary);
+}
+
+.audit-narrative-card h2 {
+    font-size: 1.45rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.85rem;
+}
+
+.audit-narrative-card p {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+}
+
+/* --- Methodology Indicator Badges --- */
+.methodology-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.method-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.method-pill i {
+    color: var(--primary);
+}
+
+/* --- Sector Interaction --- */
+.sector-row-interactive {
+    cursor: pointer;
+    transition: background-color 0.18s ease;
+}
+
+.sector-row-interactive:hover td {
+    background-color: var(--bg-hover) !important;
+}
+
+.sector-row-interactive:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: -2px;
+}
+
+.sector-row-interactive:focus-visible td {
+    background-color: var(--bg-hover) !important;
+}
+
+.sector-tile-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-right: 0.5rem;
+}
+
+.sector-name-pine { color: var(--sector-pine); }
+.sector-name-avenue { color: var(--sector-avenue); }
+.sector-name-scrub { color: var(--sector-scrub); }
+.sector-name-ravine { color: var(--sector-ravine); }
+.sector-name-unassigned { color: var(--text-muted); }
+
+.sector-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--primary);
+    color: #ffffff;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.15s ease;
+}
+
+.sector-row-interactive:hover .sector-map-btn,
+.sector-map-btn:focus,
+.sector-map-btn:focus-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sector-map-btn:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+.sector-map-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+}
+
+[data-theme="dark"] .sector-map-btn {
+    background: #2d6a30;
+    border-color: #3f8f45;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .sector-map-btn:hover {
+    background: #3f8f45;
+}
+
+/* --- Plant Species Hovercard Trigger --- */
+.plant-hover-trigger {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    display: inline-block;
+}
+
+.plant-hover-trigger:hover {
+    color: var(--primary-light);
+}
+
+.plant-hover-trigger:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+[data-theme="dark"] .plant-hover-trigger {
+    color: #4ade80;
+}
+
+/* --- Floating Plant Details Card --- */
+.plant-hover-popup {
+    position: fixed;
+    z-index: 2500;
+    width: min(340px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+    padding: 1.1rem 1.25rem;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none;
+}
+
+.plant-hover-popup.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.plant-hover-popup [hidden] {
+    display: none !important;
+}
+
+.popup-close {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.popup-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-dark);
+}
+
+.popup-close:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+.popup-header {
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.65rem;
+    padding-right: 1.7rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.popup-title-wrap {
+    min-width: 0;
+}
+
+.popup-botanical {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--primary);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+[data-theme="dark"] .popup-botanical {
+    color: #4ade80;
+}
+
+.popup-common {
+    font-size: 0.86rem;
+    color: var(--text-dark);
+    margin-top: 0.25rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.popup-details {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+}
+
+.popup-details div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.popup-details strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.popup-note {
+    margin: 0 0 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+
+.hazard-chip.hazard-neutral {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .hazard-chip.hazard-neutral {
+    background: rgba(255, 255, 255, 0.06);
+    color: #d1d5db;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.popup-action {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.45rem 0.65rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.popup-action:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.popup-action:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+/* --- Research Data Tables --- */
+.research-section {
+    margin-bottom: 2rem;
+}
+
+.research-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.table-note {
+    margin: 0;
+    padding: 0.9rem 1.35rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-scroll-hint {
+    display: none;
+}
+
+.research-table {
+    min-width: 760px;
+}
+
+.research-table--surveys {
+    min-width: 680px;
+}
+
+.research-table th,
+.research-table td {
+    vertical-align: top;
+}
+
+.research-table .hazard-chip {
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.sector-row-unassigned td {
+    color: var(--text-muted);
+}
+
+/* --- Standard Institutional Citation Box --- */
+.citation-box {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-gold);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 2.25rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.citation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.65rem;
+}
+
+.citation-header h2 {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.citation-header strong {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-heading);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.btn-copy-citation {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.18s ease;
+}
+
+.btn-copy-citation:hover {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.btn-copy-citation:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+.btn-copy-citation.is-copied {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
+.btn-copy-citation.is-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+[data-theme="dark"] .btn-copy-citation.is-error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.45);
+}
+
+.citation-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem;
+    color: var(--text-dark);
+    line-height: 1.65;
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 0.85rem 1rem;
+    overflow-wrap: anywhere;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* --- Touch Devices: Keep Map Actions Visible --- */
+@media (hover: none), (pointer: coarse) {
+    .sector-map-btn {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 680px) {
+    .research-notice {
+        padding: 0.9rem 1rem;
+    }
+
+    .audit-narrative-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .methodology-pills {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sector-map-btn {
+        opacity: 1;
+        transform: none;
+    }
+
+    .table-scroll {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-scroll-hint {
+        display: inline;
+    }
+
+    .citation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .citation-header h2 {
+        font-size: 0.76rem;
+    }
+
+    .plant-hover-popup {
+        width: calc(100vw - 24px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sector-row-interactive,
+    .sector-map-btn,
+    .plant-hover-trigger,
+    .plant-hover-popup,
+    .popup-close,
+    .btn-copy-citation {
+        transition: none;
+    }
+}
