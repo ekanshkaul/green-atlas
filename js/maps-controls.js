@@ -120,7 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (elStatElevation) elStatElevation.textContent = elevation;
         if (elStatElevationMeta) elStatElevationMeta.textContent = elevationMeta;
 
-        if (elSidebarTitle) elSidebarTitle.innerHTML = `<i class="fa-solid fa-tree"></i> ${targetZone}`;
+        if (elSidebarTitle) {
+            elSidebarTitle.textContent = '';
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-tree';
+            elSidebarTitle.appendChild(icon);
+            elSidebarTitle.appendChild(document.createTextNode(` ${targetZone}`));
+        }
         if (elSidebarDesc) elSidebarDesc.textContent = sectorInfo.desc;
         if (elSidebarDominant) elSidebarDominant.textContent = sectorInfo.dominant;
         if (elSidebarArea) elSidebarArea.textContent = `${formatArea(sectorInfo.areaM2)} | Perim: ${formatLength(sectorInfo.perimeterM)}`;
