@@ -2,11 +2,10 @@
 
 ## Supported Versions
 
-Only the latest deployment served on the `main` branch receives active security updates and vulnerability patches.
-
+Only the latest deployment served on the green-atlas-v3.1.1 branch (hereafter referred to as the "main" branch) receives active security updates and vulnerability patches."
 | Version / Branch | Supported          |
 | ----------------- | ------------------ |
-| `main` (Latest)   | :white_check_mark: |
+| main (Latest)   | :white_check_mark: |
 | Older releases    | :x:                |
 
 ---
